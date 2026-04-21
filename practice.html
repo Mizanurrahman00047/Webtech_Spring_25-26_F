@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Marks Entry</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px 0;
+      width: 250px;
+    }
+
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 60%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #ddd;
+    }
+
+    .pass {
+      background-color: lightgreen;
+    }
+
+    .fail {
+      background-color: #ffb3b3;
+    }
+
+    #message {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Marks Form</h2>
+
+  <label>Student Name:</label><br>
+  <input type="text" id="studentName"><br>
+
+  <label>Marks:</label><br>
+  <input type="text" id="studentMarks"><br>
+
+  <button onclick="addStudent()">Submit</button>
+
+  <div id="message"></div>
+
+  <table id="resultTable">
+    <tr>
+      <th>Name</th>
+      <th>Marks</th>
+    </tr>
+  </table>
+
+  <script>
+    function addStudent() {
+      var name = document.getElementById("studentName").value.trim();
+      var marks = document.getElementById("studentMarks").value.trim();
+      var msg = document.getElementById("message");
+
+      msg.innerHTML = "";
+
+      // Name validation: not empty, letters only
+      var namePattern = /^[A-Za-z]+$/;
+
+      if (name === "") {
+        msg.innerHTML = "Name cannot be empty.";
+        return;
+      }
+
+      if (!namePattern.test(name)) {
+        msg.innerHTML = "Name must contain only letters.";
+        return;
+      }
+
+      // Marks validation
+      if (marks === "" || isNaN(marks)) {
+        msg.innerHTML = "Marks must be a number.";
+        return;
+      }
+
+      marks = parseFloat(marks);
+
+      if (marks < 0 || marks > 100) {
+        msg.innerHTML = "Marks must be between 0 and 100.";
+        return;
+      }
+
+      // Create new row
+      var table = document.getElementById("resultTable");
+      var row = table.insertRow(-1);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+
+      cell1.innerHTML = name;
+      cell2.innerHTML = marks;
+
+      // Row color based on marks
+      if (marks > 50) {
+        row.className = "pass";
+      } else {
+        row.className = "fail";
+      }
+
+      // Clear inputs
+      document.getElementById("studentName").value = "";
+      document.getElementById("studentMarks").value = "";
+    }
+  </script>
+
+</body>
+</html>
